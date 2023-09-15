@@ -57,7 +57,6 @@ tasks {
     }
 }
 
-
 docker {
     name = project.name + ":" + version
     setDockerfile(file("Dockerfile"))
