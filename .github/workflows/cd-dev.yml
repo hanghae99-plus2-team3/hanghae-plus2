@@ -68,12 +68,24 @@ jobs:
                 path: |
                     ~/.gradle/caches
                     ~/.gradle/wrapper
-                    key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
-                    restore-keys: |
+                key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+                restore-keys: |
                     ${{ runner.os }}-gradle-
 
             - name: Build with Gradle
               run: ./gradlew clean build -x test
+
+            - name: Set up docker buildx
+              id: buildx
+              uses: docker/setup-buildx-action@v2
+
+            - name: Cache docker layers
+              uses: actions/cache@v2
+              with:
+                path: /tmp/.buildx-cache
+                key: ${{ runner.os }}-buildx-${{ github.sha }}
+                restore-keys: |
+                    ${{ runner.os }}-buildx-
 
             - name: Configure AWS credentials
               uses: aws-actions/configure-aws-credentials@v1
