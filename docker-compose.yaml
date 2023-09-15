@@ -1,0 +1,27 @@
+version: '1'
+services:
+  mysql:
+    image: mysql:8.0
+    networks:
+      - hanghae-team3-network
+    volumes:
+      - ./db/conf.d:/etc/mysql/conf.d
+      - ./db/data:/var/lib/mysql
+    env_file: .env
+    ports:
+      - "3306:3306"
+
+  hanghae-team3-cicd-service:
+    image: cicd:0.0.1
+    networks:
+      - hanghae-team3-network
+    ports:
+      - "8080:8080"
+    depends_on:
+      - mysql
+    environment:
+        - ACTIVE_PROFILE=default
+
+networks:
+    hanghae-team3-network:
+        driver: bridge
