@@ -24,11 +24,11 @@
 #    See the documentation for each action used below for the recommended IAM policies for this IAM user,
 #    and best practices on handling the access key credentials.
 
-name: ci-stag
+name: ci-prod
 
 on:
     pull_request:
-        branches: [ "stag" ]
+        branches: [ "prod" ]
 
 permissions:
     contents: read
@@ -37,7 +37,7 @@ jobs:
     test:
         name: test
         runs-on: ubuntu-latest
-        environment: stag
+        environment: prod
 
         steps:
             - name: Checkout
